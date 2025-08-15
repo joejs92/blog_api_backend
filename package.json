@@ -1,0 +1,29 @@
+{
+  "name": "blog_api_backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joejs92/blog_api_backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joejs92/blog_api_backend/issues"
+  },
+  "homepage": "https://github.com/joejs92/blog_api_backend#readme",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^24.2.1",
+    "prisma": "^6.14.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
