@@ -6,9 +6,12 @@ const prisma = new PrismaClient();
 
 //logout
 
-//signup
+//signup as user
+//What response should there be? What validation should be put here?
+//Is there a way to allow the user to customize the response without
+//needing the user to alter the code in the API? Maybe have whatever
+//will be in the redirect be passed as part of the req.
 async function signup(req, res){
-    //console.log(req.body.password);
     try {
         const hashedPassword = await encryptpassword(req.body.password);
         const newUser = await prisma.user.create({
@@ -21,12 +24,10 @@ async function signup(req, res){
             }
         })
         res.json("Worked!")
-        //res.redirect("/");
     }
     catch(err){
         console.log(err);
         res.json('Lame');
-        //res.redirect("/");
     }
 }
 
