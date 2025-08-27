@@ -1,5 +1,8 @@
 const path = require("node:path");
 const express = require("express");
+const passport = require("passport");
+const session = require("express-session");
+const LocalStrategy = require('passport-local').Strategy; //move to controller
 const index = require("./routes/index");
 const comment = require("./routes/comment");
 const login = require("./routes/login");
@@ -11,8 +14,9 @@ const app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname,'public')));
+app.use(session({ secret: "cats", resave: false, saveUninitialized: false }));
+app.use(passport.session());
+app.use(express.urlencoded({ extended: false }));
 
 app.use("/", index);
 app.use("/comment", comment);

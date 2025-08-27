@@ -1,8 +1,15 @@
 import encryptpassword from "./encryption.js";
 import { PrismaClient } from "../generated/prisma/client.js";
+
 const prisma = new PrismaClient();
 
 //login
+async function getUserByUsername(name){
+    const user = await prisma.user.findFirst({
+        where:{username: name }
+    })
+    return user;
+}
 
 //logout
 
@@ -59,4 +66,4 @@ async function getAllUsers(req, res){
     res.json(users);
 ;}
 
-export {getAllUsers, signup};
+export {getAllUsers, signup, getUserByUsername};
