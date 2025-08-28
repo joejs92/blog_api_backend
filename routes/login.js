@@ -9,6 +9,9 @@ async function loginMiddleware(req, res){
     //could possibly use more authentication in here, but works as of now.
     const username = req.body.username;
     const password = req.body.password;
+    if (typeof window !== 'undefined' && window.localStorage) {
+        console.log("Yay!");
+    }
     const user = await controller.getUserByUsername(username);
     if(!user){
         return res.send("No such user");
@@ -19,7 +22,10 @@ async function loginMiddleware(req, res){
         return res.send("Incorrect password");
     }
     jwt.sign({user}, 'secretkey', (err, token)=>{
-        res.json({token})});
+        const newToken = JSON.stringify(token);
+        /* localStorage.setItem('jwtToken', newToken) */});
+        //console.log(localStorage.getItem('jwtToken'))
+        res.redirect('/signup');
 }
 
 

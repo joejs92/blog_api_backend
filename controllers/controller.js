@@ -60,10 +60,30 @@ async function signup(req, res){
 
 //delete post
 
+//verify token
+function verifyToken(req, res, next){
+    //get auth header value. See jwt_api in experiments for more detail.
+    const bearerHeader = req.headers['authorization'];
+    console.log(req.headers['authorization']);
+    //check if bearer is undefined
+    if(typeof bearerHeader !== 'undefined'){
+        //split at the space, see token format above
+        const bearer = bearerHeader.split(" ");
+        //get token from array
+        const bearerToken = bearer[1];
+        req.token = bearerToken;
+        //next middleware
+        next();
+    } else {
+        //Forbidden
+        res.sendStatus(403);
+    };
+};
+
 //test (to see if connection to DB works, which it does)
 async function getAllUsers(req, res){
     const users = await prisma.user.findMany();
     res.json(users);
 ;}
 
-export {getAllUsers, signup, getUserByUsername};
+export {getAllUsers, signup, getUserByUsername, verifyToken};
