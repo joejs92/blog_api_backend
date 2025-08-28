@@ -1,20 +1,21 @@
 const {Router} = require("express");
+const { LocalStorage } = require('node-localstorage');
 const controller = require("../controllers/controller");
+const jwt = require('jsonwebtoken');
+
+const localStorage = new LocalStorage('../localData');
 
 const signup = Router();
 
 async function addHeader(req, res, next){
-    console.log(localStorage.getItem('jwtToken'))
-    /* const token = localStorage.getItem('jwtToken');
-    req.header = {'Authorization': `Bearer ${token}`};
-    next(); */
-    //NO LOCALSTORAGE BECAUSE IT IS Node!
+    const value = localStorage.getItem('jwtToken');
+    req.headers = {'Authorization': `Bearer ${value}`};
+    next(); 
 }
 
 signup.get("/", (req, res)=> res.render("signup"));
-//signup.get("/contributor",controller.verifyToken ,(req, res)=> res.render("contributor"));
-signup.get("/contributor", addHeader,controller.verifyToken ,(req, res)=> {
-    JsonWebTokenError.verify(req.token, 'secretkey', (err, authData)=>{
+signup.get("/contributor", addHeader, controller.verifyToken, (req, res)=> {
+    jwt.verify(req.token, 'secretkey', (err, authData)=>{
         if(err){
             res.sendStatus(403);
         }

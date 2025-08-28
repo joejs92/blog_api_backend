@@ -63,8 +63,7 @@ async function signup(req, res){
 //verify token
 function verifyToken(req, res, next){
     //get auth header value. See jwt_api in experiments for more detail.
-    const bearerHeader = req.headers['authorization'];
-    console.log(req.headers['authorization']);
+    const bearerHeader = req.headers['Authorization'];
     //check if bearer is undefined
     if(typeof bearerHeader !== 'undefined'){
         //split at the space, see token format above
