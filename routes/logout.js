@@ -1,7 +1,14 @@
 const {Router} = require("express");
+const { LocalStorage } = require('node-localstorage');
+
+const localStorage = new LocalStorage('../localData');
 
 const logout = Router();
 
-logout.get("/", (req, res)=> res.send("Logout works."));
+logout.get("/", (req, res)=>{
+    localStorage.removeItem("jwtToken");
+    res.redirect("/login")
+});
+/* Probably not a good way to do it, but it works. */
 
 module.exports = logout;
