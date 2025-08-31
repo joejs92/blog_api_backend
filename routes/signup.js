@@ -13,6 +13,22 @@ async function addHeader(req, res, next){
     next(); 
 }
 
+async function contributorVerification(req, res, next){
+    //The password assigned by you for verification.
+    const yourPassword = "gooblies";
+    const password = req.body.password;
+    if(password == yourPassword){
+        next();
+    }
+    else{
+        res.send("Incorrect password, dummy.");
+    }
+}
+
+async function updateStatus(userId){
+    await controller.contributorSignup(userId);
+}
+
 signup.get("/", (req, res)=> res.render("signup"));
 signup.get("/contributor", addHeader, controller.verifyToken, (req, res)=> {
     jwt.verify(req.token, 'secretkey', (err, authData)=>{
@@ -20,14 +36,22 @@ signup.get("/contributor", addHeader, controller.verifyToken, (req, res)=> {
             res.sendStatus(403);
         }
         else{
-            res.json({
-                authData
-            })
+           res.render("contributor");
         }
     })
 });
 
 signup.post("/", controller.signup);
+signup.post("/enroll", addHeader, controller.verifyToken, contributorVerification,(req, res)=> {
+    jwt.verify(req.token, 'secretkey', (err, authData)=>{
+        if(err){
+            res.sendStatus(403);
+        }
+        else{
+            updateStatus(authData.newUser.id);
+            res.send("Success!")
+        }
+    })
+});
 
-//signup.patch("/:userId") Form submission for signing up to be a contributor.
 module.exports = signup;

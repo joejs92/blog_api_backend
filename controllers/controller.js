@@ -11,7 +11,7 @@ async function getUserByUsername(name){
     return user;
 }
 
-//logout
+//logout (See the logout route)
 
 //signup as user
 //What response should there be? What validation should be put here?
@@ -39,6 +39,16 @@ async function signup(req, res){
 }
 
 //signup to be a contributor
+async function contributorSignup(id){
+    await prisma.user.update({
+        where: {
+            id: id,
+        },
+        data: {
+            status: 'contributor',
+        }
+    });
+};
 
 //update comment
 
@@ -85,4 +95,4 @@ async function getAllUsers(req, res){
     res.json(users);
 ;}
 
-export {getAllUsers, signup, getUserByUsername, verifyToken};
+export {getAllUsers, signup, getUserByUsername, verifyToken, contributorSignup};
