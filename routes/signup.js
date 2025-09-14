@@ -14,7 +14,7 @@ async function addHeader(req, res, next){
 }
 
 async function contributorVerification(req, res, next){
-    //The password assigned by you for verification.
+    //The password assigned by you for verification. (??)
     const yourPassword = "gooblies";
     const password = req.body.password;
     if(password == yourPassword){
@@ -29,14 +29,14 @@ async function updateStatus(userId){
     await controller.contributorSignup(userId);
 }
 
-signup.get("/", (req, res)=> res.render("signup"));
+signup.get("/", (req, res)=> res.send("Signup Works"));
 signup.get("/contributor", addHeader, controller.verifyToken, (req, res)=> {
     jwt.verify(req.token, 'secretkey', (err, authData)=>{
         if(err){
             res.sendStatus(403);
         }
         else{
-           res.render("contributor");
+           res.send("Successfully accessed Contributor Signup");
         }
     })
 });

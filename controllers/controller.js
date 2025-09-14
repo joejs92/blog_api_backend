@@ -19,6 +19,7 @@ async function getUserByUsername(name){
 //needing the user to alter the code in the API? Maybe have whatever
 //will be in the redirect be passed as part of the req.
 async function signup(req, res){
+    console.log(req.body);
     try {
         const hashedPassword = await encryptpassword(req.body.password);
         const newUser = await prisma.user.create({

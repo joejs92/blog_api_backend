@@ -7,7 +7,7 @@ const logout = Router();
 
 logout.get("/", (req, res)=>{
     localStorage.removeItem("jwtToken");
-    res.redirect("/login")
+    res.send("Logout Successful");
 });
 /* Probably not a good way to do it, but it works. */
 

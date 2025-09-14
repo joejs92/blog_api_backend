@@ -25,11 +25,11 @@ async function loginMiddleware(req, res){
     jwt.sign({newUser}, 'secretkey', (err, token)=>{
         //const newToken = JSON.stringify(token);
         localStorage.setItem('jwtToken', token)});
-        res.redirect('/signup');
+        res.send("Login Successful");
 }
 
 
-login.get("/", (req, res)=> res.render("login"));
+login.get("/", (req, res)=> res.send("Login Works"));
 
 login.post("/", loginMiddleware);
 
