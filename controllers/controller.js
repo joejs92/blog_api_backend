@@ -121,7 +121,7 @@ async function getPost(req, res){
 }
 
 //update post content
-async function updatePost(req, res){
+async function updatePostContent(req, res){
     const id = parseInt(req.params.postId);
     await prisma.post.update({
         where: {
@@ -134,7 +134,7 @@ async function updatePost(req, res){
 }
 
 //update post published
-async function updatePost(req, res){
+async function updatePostPublish(req, res){
     //there will have to be a value attached to the body called 'isPublished'
     //that value will need to be either True or False.
     const id = parseInt(req.params.postId);
@@ -216,7 +216,8 @@ export {getAllUsers,
     contributorSignup,
     createPost, 
     deletePost,
-    updatePost,
+    updatePostPublish,
+    updatePostContent,
     getPost,
     getAllPosts,
     createComment,
