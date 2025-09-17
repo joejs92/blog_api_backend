@@ -91,6 +91,21 @@ async function deleteComment(req, res){
     });
 }
 
+//get all comments for a particular post
+async function getAllComments(req, res){
+    const id = parseInt(req.params.postId);
+    await prisma.comment.findMany({
+        where:{postId:{equals: id}}
+    });
+}
+
+//get unique comment
+async function getUniqueComment(req, res){
+    const id = parseInt(req.params.postId);
+    await prisma.comment.findFirst({
+        where:{commentId: id }
+    })
+}
 
 //get all posts
 async function getAllPosts(req, res){
@@ -206,5 +221,7 @@ export {getAllUsers,
     getAllPosts,
     createComment,
     updateComment,
-    deleteComment
+    deleteComment,
+    getAllComments,
+    getUniqueComment
 };
