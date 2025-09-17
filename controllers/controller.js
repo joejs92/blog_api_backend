@@ -51,12 +51,46 @@ async function contributorSignup(id){
 };
 
 //update comment
+async function updateComment(req, res){
+    const id = parseInt(req.params.commentId);
+    await prisma.comment.update({
+        where: {
+            id: id,
+        },
+        data: {
+            body: req.body.content,
+            isEdited: true
+        }
+    });
+}
 
 //create comment
+async function createComment(req, res){
+    try{
+        await prisma.post.create({
+            data: {
+                body: req.body.content,
+                postId: req.body.postId,
+                userId: req.body.userId,
+                added: new Date(),
+                isEdited: false
+            }
+        })
+    }
+    catch(err){
+        console.log(err);
+        res.json('Lame');
+    }
+}
 
 //delete comment
+async function deleteComment(req, res){
+    const id = parseInt(req.params.commentId);
+    await prisma.comment.delete({
+        where: {commentId: id}
+    });
+}
 
-//delete all comments
 
 //get all posts
 async function getAllPosts(req, res){
@@ -169,5 +203,8 @@ export {getAllUsers,
     deletePost,
     updatePost,
     getPost,
-    getAllPosts
+    getAllPosts,
+    createComment,
+    updateComment,
+    deleteComment
 };
