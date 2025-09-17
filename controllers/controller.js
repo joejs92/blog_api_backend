@@ -19,7 +19,6 @@ async function getUserByUsername(name){
 //needing the user to alter the code in the API? Maybe have whatever
 //will be in the redirect be passed as part of the req.
 async function signup(req, res){
-    console.log(req.body);
     try {
         const hashedPassword = await encryptpassword(req.body.password);
         const newUser = await prisma.user.create({
@@ -60,16 +59,81 @@ async function contributorSignup(id){
 //delete all comments
 
 //get all posts
+async function getAllPosts(req, res){
+    await prisma.post.findMany();
+}
 
 //get unique post
+async function getPost(req, res){
+    const id = parseInt(req.params.postId);
+    await prisma.post.findFirst({
+        where:{postId: id }
+    })
+}
 
-//update post body
+//update post content
+async function updatePost(req, res){
+    const id = parseInt(req.params.postId);
+    await prisma.post.update({
+        where: {
+            id: id,
+        },
+        data: {
+            body: req.body.content,
+        }
+    });
+}
 
 //update post published
+async function updatePost(req, res){
+    //there will have to be a value attached to the body called 'isPublished'
+    //that value will need to be either True or False.
+    const id = parseInt(req.params.postId);
+    await prisma.post.update({
+        where: {
+            id: id,
+        },
+        data: {
+            published: req.body.isPublished,
+        }
+    });
+}
 
 //create post
+async function createPost(req, res){
+    try{
+        await prisma.post.create({
+            data: {
+                title: req.body.title,
+                body: req.body.content,
+                published: req.body.published,
+                userId: req.body.userId
+            }
+        })
+    }
+    catch(err){
+        console.log(err);
+        res.json('Lame');
+    }
+}
 
 //delete post
+async function deletePost(req,res){
+    const id = parseInt(req.params.postId);
+    try{
+        //delete all comments in this post.
+        await prisma.comment.deleteMany({
+            where:{postId: {equals: id}}
+        });
+        //then delete the post
+        await prisma.post.delete({
+            where: {postId: id}
+        });
+    }
+    catch(err){
+        console.log(err);
+    }
+}
 
 //verify token
 function verifyToken(req, res, next){
@@ -96,4 +160,14 @@ async function getAllUsers(req, res){
     res.json(users);
 ;}
 
-export {getAllUsers, signup, getUserByUsername, verifyToken, contributorSignup};
+export {getAllUsers, 
+    signup, 
+    getUserByUsername, 
+    verifyToken, 
+    contributorSignup,
+    createPost, 
+    deletePost,
+    updatePost,
+    getPost,
+    getAllPosts
+};

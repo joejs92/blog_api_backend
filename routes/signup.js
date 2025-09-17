@@ -39,7 +39,7 @@ signup.get("/contributor", addHeader, controller.verifyToken, (req, res)=> {
            res.send("Successfully accessed Contributor Signup");
         }
     })
-});
+}); // <- just renders the contributor signup page.
 
 signup.post("/", controller.signup);
 signup.post("/enroll", addHeader, controller.verifyToken, contributorVerification,(req, res)=> {

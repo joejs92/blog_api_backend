@@ -21,9 +21,9 @@ async function loginMiddleware(req, res){
         // passwords do not match!
         return res.send("Incorrect password");
     }
-    const newUser = {id: user.id, username: user.username};
+    const newUser = {id: user.id, username: user.username, status: user.status};
     jwt.sign({newUser}, 'secretkey', (err, token)=>{
-        //const newToken = JSON.stringify(token);
+        console.log(newUser);
         localStorage.setItem('jwtToken', token)});
         res.send("Login Successful");
 }
