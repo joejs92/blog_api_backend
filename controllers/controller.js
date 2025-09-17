@@ -101,7 +101,7 @@ async function getAllComments(req, res){
 
 //get unique comment
 async function getUniqueComment(req, res){
-    const id = parseInt(req.params.postId);
+    const id = parseInt(req.params.commentId);
     await prisma.comment.findFirst({
         where:{commentId: id }
     })
