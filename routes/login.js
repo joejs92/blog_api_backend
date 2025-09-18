@@ -23,7 +23,7 @@ async function loginMiddleware(req, res){
     }
     const newUser = {id: user.id, username: user.username, status: user.status};
     jwt.sign({newUser}, 'secretkey', (err, token)=>{
-        console.log(newUser);
+        console.log(token);
         localStorage.setItem('jwtToken', token)});
         res.send("Login Successful");
 }

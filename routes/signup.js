@@ -42,6 +42,7 @@ signup.get("/contributor", addHeader, controller.verifyToken, (req, res)=> {
 }); // <- just renders the contributor signup page.
 
 signup.post("/", controller.signup);
+//Need the token to make the following function work.
 signup.post("/enroll", addHeader, controller.verifyToken, contributorVerification,(req, res)=> {
     jwt.verify(req.token, 'secretkey', (err, authData)=>{
         if(err){
@@ -53,5 +54,6 @@ signup.post("/enroll", addHeader, controller.verifyToken, contributorVerificatio
         }
     })
 });
+//signup.post("/enroll", controller.contributorSignup);
 
 module.exports = signup;

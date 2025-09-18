@@ -30,7 +30,8 @@ async function signup(req, res){
                 status: "user"
             }
         })
-        res.json("Worked!")
+        //How would a real API handle a response?
+        res.json("Signup Worked!")
     }
     catch(err){
         console.log(err);
@@ -38,30 +39,44 @@ async function signup(req, res){
     }
 }
 
-//signup to be a contributor
+//signup to be a contributor. Need to fix the function parameters.
 async function contributorSignup(id){
-    await prisma.user.update({
-        where: {
-            id: id,
-        },
-        data: {
-            status: 'contributor',
-        }
-    });
+    try{
+        await prisma.user.update({
+            where: {
+                id: id,
+            },
+            data: {
+                status: 'contributor',
+            }
+        });
+        //res.json("contributorSignup Worked!")
+    }
+    catch(err){
+        console.log(err);
+        //res.json('Lame');
+    }
 };
 
 //update comment
 async function updateComment(req, res){
     const id = parseInt(req.params.commentId);
-    await prisma.comment.update({
-        where: {
-            id: id,
-        },
-        data: {
-            body: req.body.content,
-            isEdited: true
-        }
-    });
+    try{
+        await prisma.comment.update({
+            where: {
+                id: id,
+            },
+            data: {
+                body: req.body.content,
+                isEdited: true
+            }
+        });
+        res.json("updateComment Worked!")
+    }
+    catch(err){
+        console.log(err);
+        res.json('Lame');
+    }
 }
 
 //create comment
@@ -75,7 +90,8 @@ async function createComment(req, res){
                 added: new Date(),
                 isEdited: false
             }
-        })
+        });
+        res.json("createComment Worked!")
     }
     catch(err){
         console.log(err);
@@ -86,51 +102,94 @@ async function createComment(req, res){
 //delete comment
 async function deleteComment(req, res){
     const id = parseInt(req.params.commentId);
-    await prisma.comment.delete({
-        where: {commentId: id}
-    });
+    try{
+        await prisma.comment.delete({
+            where: {commentId: id}
+        });
+        res.json("deleteComment Worked!")
+    }
+    catch(err){
+        console.log(err);
+        res.json('Lame');
+    }
 }
 
 //get all comments for a particular post
 async function getAllComments(req, res){
     const id = parseInt(req.params.postId);
-    await prisma.comment.findMany({
-        where:{postId:{equals: id}}
-    });
+    try{
+        await prisma.comment.findMany({
+            where:{postId:{equals: id}}
+        });
+        res.json("getAllComments Worked!")
+    }
+    catch(err){
+        console.log(err);
+        res.json('Lame');
+    }
 }
 
-//get unique comment
+//get unique comment (Do we really need this one?)
 async function getUniqueComment(req, res){
     const id = parseInt(req.params.commentId);
-    await prisma.comment.findFirst({
-        where:{commentId: id }
-    })
+    try{
+        await prisma.comment.findFirst({
+            where:{commentId: id }
+        })
+        res.json("getUniqueComment Worked!")
+    }
+    catch(err){
+        console.log(err);
+        res.json('Lame');
+    }
 }
 
 //get all posts
 async function getAllPosts(req, res){
-    await prisma.post.findMany();
+    try{
+        await prisma.post.findMany();
+        res.json("getAllPosts Worked!")
+    }
+    catch(err){
+        console.log(err);
+        res.json('Lame');
+    }
 }
 
 //get unique post
 async function getPost(req, res){
     const id = parseInt(req.params.postId);
-    await prisma.post.findFirst({
-        where:{postId: id }
-    })
+    //Should also get all comments associated with this post.
+    try{
+        await prisma.post.findFirst({
+            where:{postId: id }
+        })
+        res.json("getPost Worked!")
+    }
+    catch(err){
+        console.log(err);
+        res.json('Lame');
+    }
 }
 
 //update post content
 async function updatePostContent(req, res){
     const id = parseInt(req.params.postId);
-    await prisma.post.update({
-        where: {
-            id: id,
-        },
-        data: {
-            body: req.body.content,
-        }
-    });
+    try{
+        await prisma.post.update({
+            where: {
+                id: id,
+            },
+            data: {
+                body: req.body.content,
+            }
+        });
+        res.json("updatePostContent Worked!")
+    }
+    catch(err){
+        console.log(err);
+        res.json('Lame');
+    }
 }
 
 //update post published
@@ -138,14 +197,21 @@ async function updatePostPublish(req, res){
     //there will have to be a value attached to the body called 'isPublished'
     //that value will need to be either True or False.
     const id = parseInt(req.params.postId);
-    await prisma.post.update({
-        where: {
-            id: id,
-        },
-        data: {
-            published: req.body.isPublished,
-        }
-    });
+    try{
+        await prisma.post.update({
+            where: {
+                id: id,
+            },
+            data: {
+                published: req.body.isPublished,
+            }
+        });
+        res.json("updatePostPublish Worked!")
+    }
+    catch(err){
+        console.log(err);
+        res.json('Lame');
+    }
 }
 
 //create post
@@ -159,6 +225,7 @@ async function createPost(req, res){
                 userId: req.body.userId
             }
         })
+        res.json("createPost Worked!")
     }
     catch(err){
         console.log(err);
@@ -178,6 +245,7 @@ async function deletePost(req,res){
         await prisma.post.delete({
             where: {postId: id}
         });
+        res.json("deletePost Worked!")
     }
     catch(err){
         console.log(err);
