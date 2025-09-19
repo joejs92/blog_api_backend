@@ -64,7 +64,7 @@ async function updateComment(req, res){
     try{
         await prisma.comment.update({
             where: {
-                id: id,
+                commentId: id,
             },
             data: {
                 body: req.body.content,
@@ -82,7 +82,7 @@ async function updateComment(req, res){
 //create comment
 async function createComment(req, res){
     try{
-        await prisma.post.create({
+        await prisma.comment.create({
             data: {
                 body: req.body.content,
                 postId: req.body.postId,
@@ -178,7 +178,7 @@ async function updatePostContent(req, res){
     try{
         await prisma.post.update({
             where: {
-                id: id,
+                postId: id,
             },
             data: {
                 body: req.body.content,
@@ -200,7 +200,7 @@ async function updatePostPublish(req, res){
     try{
         await prisma.post.update({
             where: {
-                id: id,
+                postId: id,
             },
             data: {
                 published: req.body.isPublished,

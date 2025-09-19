@@ -25,9 +25,9 @@ async function contributorVerification(req, res, next){
     }
 }
 
-async function updateStatus(userId){
+/* async function updateStatus(userId){
     await controller.contributorSignup(userId);
-}
+} */
 
 signup.get("/", (req, res)=> res.send("Signup Works"));
 signup.get("/contributor", addHeader, controller.verifyToken, (req, res)=> {
@@ -45,11 +45,14 @@ signup.post("/", controller.signup);
 //Need the token to make the following function work.
 signup.post("/enroll", addHeader, controller.verifyToken, contributorVerification,(req, res)=> {
     jwt.verify(req.token, 'secretkey', (err, authData)=>{
+        /* req.body.id = authData.newUser.id;
+        console.log(req.body.id); */
         if(err){
             res.sendStatus(403);
         }
         else{
-            updateStatus(authData.newUser.id);
+            controller.contributorSignup(authData.newUser.id);
+            //updateStatus(authData.newUser.id);
             res.send("Success!")
         }
     })
