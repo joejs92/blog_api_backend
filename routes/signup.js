@@ -58,5 +58,15 @@ signup.post("/enroll", addHeader, controller.verifyToken, contributorVerificatio
     })
 });
 //signup.post("/enroll", controller.contributorSignup);
+signup.post("/getToken", addHeader, controller.verifyToken,(req, res)=> {
+    jwt.verify(req.token, 'secretkey', (err, authData)=>{
+        if(err){
+            res.sendStatus(403);
+        }
+        else{
+            res.send(req.token)
+        }
+    })
+});
 
 module.exports = signup;
