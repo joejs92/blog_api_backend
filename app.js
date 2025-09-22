@@ -9,6 +9,13 @@ const login = require("./routes/login");
 const logout = require("./routes/logout");
 const posts = require("./routes/posts");
 const signup = require("./routes/signup");
+const cors = require("cors");
+
+const corsOptions = {
+    origin: ["http://localhost:5173"],
+};
+
+app.use(cors(corsOptions));
 
 const app = express();
 app.set("views", path.join(__dirname, "views"));
